@@ -78,7 +78,7 @@ public class URLScrapper {
 		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-150), 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("URL Scrapper for Vimeo");
+		JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("URL Video Scrapper");
 		lblNewJgoodiesTitle.setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
 		lblNewJgoodiesTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewJgoodiesTitle.setForeground(Color.WHITE);
@@ -89,7 +89,7 @@ public class URLScrapper {
 		txtpnUrlScrapperWill.setEditable(false);
 		txtpnUrlScrapperWill.setForeground(Color.LIGHT_GRAY);
 		txtpnUrlScrapperWill.setBackground(Color.DARK_GRAY);
-		txtpnUrlScrapperWill.setText("URL Scrapper will search for vimeo links in html files. Just save the pages in a folder and select as a source!");
+		txtpnUrlScrapperWill.setText("URL Scrapper will search for video links in html files. Just save the pages in a folder and select as a source!");
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
