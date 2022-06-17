@@ -1,11 +1,12 @@
 package com.rcastrucci.dev.main;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -16,14 +17,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 import com.rcastrucci.dev.model.Reader;
 import com.rcastrucci.dev.view.View;
-
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import javax.swing.GroupLayout;
@@ -33,11 +31,15 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class URLScrapper {
 
 	private JFrame frame;
-	static JButton btnStart = new JButton("Start");
-	static JButton btnSource = new JButton("Source");
-	static JButton btnDestination =  new JButton("Destination");
-	static String selectedSource;
-	static String selectedDestination;
+	private static JButton btnStart = new JButton("Start");
+	private static JButton btnSource = new JButton("Source");
+	private static JButton btnDestination =  new JButton("Destination");
+	private static String selectedSource;
+	private static String selectedDestination;
+	private static JLabel labelStatus = new JLabel("Status: waiting");
+
+	//frame.setLocation((int) , ;
+
 	/**
 	 * Launch the application.
 	 */
@@ -65,10 +67,15 @@ public class URLScrapper {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		labelStatus.setBackground(Color.DARK_GRAY);
+		labelStatus.setFont(new Font("Helvetica Neue", Font.ITALIC, 12));
+		labelStatus.setForeground(Color.GRAY);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-150), 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("URL Scrapper for Vimeo");
@@ -93,7 +100,6 @@ public class URLScrapper {
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblNewJgoodiesTitle, GroupLayout.PREFERRED_SIZE, 450, GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
 									.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE)
 									.addGap(59))))
 						.addGroup(groupLayout.createSequentialGroup()
@@ -103,6 +109,10 @@ public class URLScrapper {
 								.addComponent(btnDestination, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE))))
 					.addContainerGap())
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(17)
+					.addComponent(labelStatus, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(22, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -117,7 +127,9 @@ public class URLScrapper {
 					.addComponent(btnDestination)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnStart)
-					.addContainerGap(47, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(labelStatus, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		frame.getContentPane().setLayout(groupLayout);
 		
@@ -137,6 +149,7 @@ public class URLScrapper {
 	    	    chooser.setAcceptAllFileFilterUsed(false);
 	    	    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) { 
 	    	    	selectedSource = chooser.getSelectedFile().toString();
+	    			labelStatus.setText("Source: "+selectedSource);
 	    	    } else {
 	    	    	selectedSource = null;
 	    	    }
@@ -154,31 +167,29 @@ public class URLScrapper {
 	    	    chooser.setAcceptAllFileFilterUsed(false);
 	    	    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) { 
 	    	    	selectedDestination = chooser.getSelectedFile().toString();
+	    			labelStatus.setText("Destination: "+selectedDestination);
 	    	    } else {
 	    	    	selectedDestination = null;
 	    	    }
 		    }
 	    });
+	    
+	    frame.setAutoRequestFocus(true);
 	}
 	
 	public static void start() {
-		
 		if (selectedSource == null) {
 			View.mensagem("Missing a source folder");
 		} else {			
 			if (selectedDestination == null) {
 				View.mensagem("Missing a destination folder");
-			} else {				
-				if (View.option("Confirmation", "Source: "+selectedSource+"\r\n Destination: "+selectedDestination)) {			
-					scrapper();
-				} else {
-					System.out.println("Job cancelled!");
-				}
+			} else {
+				scrapper();
 			}
 		}
 	}
 	
-	public static void scrapper() {
+	public static void scrapper() {	
 		
 		System.out.println("Readding folder...");
 		System.out.println(selectedSource);
@@ -196,15 +207,17 @@ public class URLScrapper {
 			int index = 0;
 			for (String url : Reader.linkList) {
 				try {
+					System.out.println("Downloading: "+Reader.titleList.get(index));
+					labelStatus.setText("Downloading: "+Reader.titleList.get(index));
 					download(url, selectedDestination+"/"+Reader.titleList.get(index)+".mp4");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				index++;
 			}
-			View.mensagem("Download completed", Reader.linkList.size()+" links were downloaded successfully!");
+			labelStatus.setText(Reader.linkList.size()+" videos were downloaded successfully!\"");
 		} else {
-			System.out.println("Job cancelled!");
+			labelStatus.setText("Job cancelled!");
 		}
 	}
 	
