@@ -5,14 +5,6 @@ import javax.swing.JOptionPane;
 /**
  * Classe para uso em teste, interação do usuário com as classes.
  * Esta classe utiliza a classe JOptionPane para exibir mensagens, avisos e requisitar informações.
- * 
- * @author 1TDSOS-2021 Grupo F - FIAP
- * @author Renne Castrucci
- * @author Rita de Cassia Fontenele Oliveira
- * @author Gabriel Sever Carvalho
- * @author Guilherme Gonçalves Pires
- * @author Weslley Pablo Araujo Silva
- * 
  * @version 1.0
  */
 public class View {
