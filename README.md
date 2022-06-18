@@ -20,8 +20,12 @@ For MacOS I manage to bundled the app so you don't need to deal with coding.<br>
 </a><br>
 [Download App for MacOS](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg)
 
-## **Linux and Windows**
-For **Linux** and **Windows** you need to have Java 17 or later installed in your computer and you will be able to run the Runnable Jar.<br>
+## **Linux**
+For Linux as well here is a bundled app to download<br><br>
+[Download App for Linux](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_linux_1_0.deb)
+
+## **Windows**
+For **Windows** you need to have Java 17 or later installed in your computer and you will be able to run the Runnable Jar.<br>
 [Download Runnable Jar file](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/URLScrapper.jar)
 
 ## Java?
