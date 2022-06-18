@@ -13,14 +13,18 @@ to protect their users from downloading it. And I think this is not really fair 
 who bought the rights to watch and want to watch later and offline! If this is your case, here is a solution for that!
 
 ## How to do it!
-I didn't bundle yet this code to became a proper App. But if you have installed java in your
-computer you will be able to run it. Otherwise just download java 17 or 18 before trying to run.
-If you don't want to go through the code, just [download the runnable jar file](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/URLScrapper.jar) and enjoy it!
+## **MacOS**
+For MacOS I manage to bundled the app so you don't need to deal with coding. [Download the app from here](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg)
+
+## **Linux and Windows**
+For **Linux** and **Windows** you need to have Java 17 or later installed in your computer and you will be able to run the Runnable Jar. [Download here the runnable jar file](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/URLScrapper.jar)
 
 ## Java?
 To know if you have or not java installed just open a terminal window and type
 
     java --version
+
+If you don't have Java installed you can download Java 17 directly from Oracle in this link - > [Download Java17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 
 ## Steps
 The first thing you will need to do is to log in to your course or website where is holding
