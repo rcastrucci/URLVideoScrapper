@@ -15,7 +15,7 @@ who bought the rights to watch and want to watch later and offline! If this is y
 ## How to do it!
 I didn't bundle yet this code to became a proper App. But if you have installed java in your
 computer you will be able to run it. Otherwise just download java 17 or 18 before trying to run.
-If you don't want to go through the code, just download the runnable jar file and enjoy it!
+If you don't want to go through the code, just [download the runnable jar file](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/URLScrapper.jar) and enjoy it!
 
 ## Java?
 To know if you have or not java installed just open a terminal window and type
