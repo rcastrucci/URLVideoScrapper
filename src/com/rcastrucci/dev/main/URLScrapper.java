@@ -19,7 +19,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 import com.rcastrucci.dev.model.Reader;
 import com.rcastrucci.dev.view.View;
 import javax.swing.SwingConstants;
@@ -78,11 +77,6 @@ public class URLScrapper {
 		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-150), 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("URL Video Scrapper");
-		lblNewJgoodiesTitle.setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
-		lblNewJgoodiesTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewJgoodiesTitle.setForeground(Color.WHITE);
-		
 		JTextPane txtpnUrlScrapperWill = new JTextPane();
 		txtpnUrlScrapperWill.setEnabled(false);
 		txtpnUrlScrapperWill.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
@@ -90,35 +84,38 @@ public class URLScrapper {
 		txtpnUrlScrapperWill.setForeground(Color.LIGHT_GRAY);
 		txtpnUrlScrapperWill.setBackground(Color.DARK_GRAY);
 		txtpnUrlScrapperWill.setText("URL Scrapper will search for video links in html files. Just save the pages in a folder and select as a source!");
+		
+		JLabel lblNewLabel = new JLabel("URL Video Scrapper");
+		lblNewLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblNewJgoodiesTitle, GroupLayout.PREFERRED_SIZE, 450, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE)
-									.addGap(59))))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(146)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(btnSource, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnDestination, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(btnStart, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(17)
+							.addComponent(labelStatus, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(58)
+							.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 438, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(17)
-					.addComponent(labelStatus, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(22, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addComponent(lblNewJgoodiesTitle, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap()
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(31)
