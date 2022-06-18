@@ -20,7 +20,7 @@ If you don't want to go through the code, just [download the runnable jar file](
 ## Java?
 To know if you have or not java installed just open a terminal window and type
 
-  java --version
+    java --version
 
 ## Steps
 The first thing you will need to do is to log in to your course or website where is holding
