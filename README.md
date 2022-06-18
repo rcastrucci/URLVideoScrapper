@@ -14,10 +14,15 @@ who bought the rights to watch and want to watch later and offline! If this is y
 
 ## How to do it!
 ## **MacOS**
-For MacOS I manage to bundled the app so you don't need to deal with coding. [Download the app from here](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg)
+For MacOS I manage to bundled the app so you don't need to deal with coding.<br><br>
+<a href="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg">
+<img src="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper%20App.png" width="150" height="150"/>
+</a><br>
+[Download App for MacOS](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg)
 
 ## **Linux and Windows**
-For **Linux** and **Windows** you need to have Java 17 or later installed in your computer and you will be able to run the Runnable Jar. [Download here the runnable jar file](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/URLScrapper.jar)
+For **Linux** and **Windows** you need to have Java 17 or later installed in your computer and you will be able to run the Runnable Jar.<br>
+[Download Runnable Jar file](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/URLScrapper.jar)
 
 ## Java?
 To know if you have or not java installed just open a terminal window and type
