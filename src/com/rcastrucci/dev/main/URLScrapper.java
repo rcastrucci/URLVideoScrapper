@@ -38,8 +38,8 @@ public class URLScrapper {
 	private static String selectedSource;
 	private static String selectedDestination;
 	private static JLabel labelStatus = new JLabel("Status: waiting");
-	private static JRadioButton radioLinkedin = new JRadioButton("Linked In");
-	private static JRadioButton radioVimeo = new JRadioButton("Vimeo");
+	private static JRadioButton radioAdvanced = new JRadioButton("Advanced");
+	private static JRadioButton radioStandard = new JRadioButton("Standard");
 
 	//frame.setLocation((int) , ;
 
@@ -95,13 +95,13 @@ public class URLScrapper {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 
-		radioLinkedin.setBackground(Color.DARK_GRAY);
-		radioLinkedin.setForeground(Color.GRAY);
-		radioLinkedin.setSelected(Config.getInstance().getProperty("plataform").equals("linkedin"));
+		radioAdvanced.setBackground(Color.DARK_GRAY);
+		radioAdvanced.setForeground(Color.GRAY);
+		radioAdvanced.setSelected(Config.getInstance().getProperty("plataform").equals("advanced"));
 		
-		radioVimeo.setBackground(Color.DARK_GRAY);
-		radioVimeo.setForeground(Color.GRAY);
-		radioVimeo.setSelected(Config.getInstance().getProperty("plataform").equals("vimeo"));
+		radioStandard.setBackground(Color.DARK_GRAY);
+		radioStandard.setForeground(Color.GRAY);
+		radioStandard.setSelected(Config.getInstance().getProperty("plataform").equals("standard"));
 		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -122,8 +122,8 @@ public class URLScrapper {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(91)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(radioLinkedin)
-						.addComponent(radioVimeo))
+						.addComponent(radioAdvanced)
+						.addComponent(radioStandard))
 					.addGap(26)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 						.addComponent(btnStart, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -141,11 +141,11 @@ public class URLScrapper {
 					.addGap(31)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSource)
-						.addComponent(radioVimeo))
+						.addComponent(radioStandard))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnDestination)
-						.addComponent(radioLinkedin))
+						.addComponent(radioAdvanced))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnStart)
 					.addGap(18)
@@ -154,29 +154,29 @@ public class URLScrapper {
 		);
 		frame.getContentPane().setLayout(groupLayout);
 		
-		radioVimeo.addActionListener(new ActionListener() {
+		radioStandard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (radioVimeo.isSelected()) {
-					radioLinkedin.setSelected(false);
-					Config.getInstance().setProperty("plataform", "vimeo");
+				if (radioStandard.isSelected()) {
+					radioAdvanced.setSelected(false);
+					Config.getInstance().setProperty("plataform", "standard");
 				} else {
-					radioLinkedin.setSelected(true);
-					Config.getInstance().setProperty("plataform", "linkedin");
+					radioAdvanced.setSelected(true);
+					Config.getInstance().setProperty("plataform", "advanced");
 				}
 			}
 			
 		});
 		
-		radioLinkedin.addActionListener(new ActionListener() {
+		radioAdvanced.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (radioLinkedin.isSelected()) {
-					radioVimeo.setSelected(false);
-					Config.getInstance().setProperty("plataform", "linkedin");
+				if (radioAdvanced.isSelected()) {
+					radioStandard.setSelected(false);
+					Config.getInstance().setProperty("plataform", "advanced");
 				} else {
-					radioVimeo.setSelected(true);
-					Config.getInstance().setProperty("plataform", "vimeo");
+					radioStandard.setSelected(true);
+					Config.getInstance().setProperty("plataform", "standard");
 				}
 			}
 			

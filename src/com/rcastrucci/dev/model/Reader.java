@@ -27,8 +27,12 @@ public class Reader {
 			String line;  
 			while((line=br.readLine())!=null) {
 				// VIMEO
-				if (Config.getInstance().getProperty("plataform").equals("vimeo")) {
-					if (line.contains("\"width\":"+Config.getInstance().getProperty("width")+",\"mime\":\"video/mp4\"")) {				
+				if (Config.getInstance().getProperty("plataform").equals("advanced")) {
+					// TODO searchs for a specific urls
+					System.out.println("Advanced method not implemented yet!");
+				} else {
+					// Vimeo Embbed videos
+					if (line.contains("\"width\":"+Config.getInstance().getProperty("width")+",\"mime\":\"video/mp4\"")) {		
 						String[] parts = line.split("\"width\":"+Config.getInstance().getProperty("width")+",\"mime\":\"video/mp4\"");
 						String[] parts1 = parts[1].split("https");
 						String[] parts2 = parts1[1].split("\"");
@@ -38,17 +42,22 @@ public class Reader {
 						String[] tparts1 = tparts[1].split("</title>");
 						String title = tparts1[0];					
 						
+						System.out.println("Found a link: "+link);
+						System.out.println("Testing response...");
+						
 						// If connection returns 200 Ok adds to the list
 						if (Connection.isLink200(link)) {							
 							linkList.add(link);
 							titleList.add(title);
 							sb.append(link);
 							sb.append("\n");
+							System.out.println("200 OK");
+						} else {
+							System.out.println("Failed!");
 						}
-						
 					}
-				} else if (Config.getInstance().getProperty("plataform").equals("linkedin")) {
-					if (line.contains("<video")) {			
+					// Linkedin Embbed videos
+					if (line.contains("<video")) {		
 						String[] parts = line.split("src=\"");
 						String[] parts1 = parts[1].split("\"");
 						String link = Convert.string.decode(parts1[0]);
@@ -56,12 +65,18 @@ public class Reader {
 						String[] path = filename.split("/");
 						String title = path[path.length-2]+"_"+linkList.size()+1;
 						
+						System.out.println("Found a link: "+link);
+						System.out.println("Testing response...");
+						
 						// If connection returns 200 Ok adds to the list
 						if (Connection.isLink200(link)) {							
 							linkList.add(link);
 							titleList.add(title);
 							sb.append(link);
 							sb.append("\n");
+							System.out.println("200 OK");
+						} else {
+							System.out.println("Failed!");
 						}
 					}
 				}
