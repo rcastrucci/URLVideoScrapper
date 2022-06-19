@@ -30,5 +30,5 @@ public class Config {
 			}
 		}
 		return properties;
-	}	
+	}
 }
