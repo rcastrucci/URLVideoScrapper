@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -19,6 +20,10 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+
+import com.rcastrucci.dev.model.Advanced;
+import com.rcastrucci.dev.model.AdvancedWindow;
+import com.rcastrucci.dev.model.Console;
 import com.rcastrucci.dev.model.Reader;
 import com.rcastrucci.dev.util.Config;
 import com.rcastrucci.dev.view.View;
@@ -40,6 +45,8 @@ public class URLScrapper {
 	private static JLabel labelStatus = new JLabel("Status: waiting");
 	private static JRadioButton radioAdvanced = new JRadioButton("Advanced");
 	private static JRadioButton radioStandard = new JRadioButton("Standard");
+	private static Advanced advancedWindow = AdvancedWindow.getInstance();
+	private static Console console = new Console();
 
 	//frame.setLocation((int) , ;
 
@@ -157,13 +164,10 @@ public class URLScrapper {
 		radioStandard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (radioStandard.isSelected()) {
-					radioAdvanced.setSelected(false);
-					Config.getInstance().setProperty("plataform", "standard");
-				} else {
-					radioAdvanced.setSelected(true);
-					Config.getInstance().setProperty("plataform", "advanced");
-				}
+				radioStandard.setSelected(true);
+				radioAdvanced.setSelected(false);
+				Config.getInstance().setProperty("plataform", "standard");
+				advancedWindow.frame.setVisible(false);
 			}
 			
 		});
@@ -171,13 +175,10 @@ public class URLScrapper {
 		radioAdvanced.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (radioAdvanced.isSelected()) {
-					radioStandard.setSelected(false);
-					Config.getInstance().setProperty("plataform", "advanced");
-				} else {
-					radioStandard.setSelected(true);
-					Config.getInstance().setProperty("plataform", "standard");
-				}
+				radioStandard.setSelected(false);
+				radioAdvanced.setSelected(true);
+				Config.getInstance().setProperty("plataform", "advanced");
+				advancedWindow.frame.setVisible(true);
 			}
 			
 		});
@@ -194,7 +195,7 @@ public class URLScrapper {
 	    	    chooser = new JFileChooser(); 
 	    	    chooser.setCurrentDirectory(new java.io.File("/~"));
 	    	    chooser.setDialogTitle("Select a source");
-	    	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    	    chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 	    	    chooser.setAcceptAllFileFilterUsed(false);
 	    	    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) { 
 	    	    	selectedSource = chooser.getSelectedFile().toString();
@@ -211,8 +212,8 @@ public class URLScrapper {
 	        	JFileChooser chooser;
 	    	    chooser = new JFileChooser(); 
 	    	    chooser.setCurrentDirectory(new java.io.File("/~"));
-	    	    chooser.setDialogTitle("Select a source");
-	    	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	    	    chooser.setDialogTitle("Select a destination");
+	    	    chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 	    	    chooser.setAcceptAllFileFilterUsed(false);
 	    	    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) { 
 	    	    	selectedDestination = chooser.getSelectedFile().toString();
@@ -242,18 +243,28 @@ public class URLScrapper {
 		
 		System.out.println("Readding folder...");
 		System.out.println(selectedSource);
-		File folderSource = new File(selectedSource);
+		File filesSource = new File(selectedSource);
 
-		ArrayList<String> list = listFiles(folderSource);
-		
-		Reader.reset();
-		for (String filename : list) {
-			Reader.run(selectedSource+"/"+filename);
+		// READS A FOLDER
+		if (filesSource.isDirectory()) {
+			ArrayList<String> list = listFiles(filesSource);
+			Reader.reset();
+			for (String filename : list) {
+				Reader.run(selectedSource, filename);
+			}
+		} else {
+		// READ A FILE
+			Reader.reset();
+			Reader.run(selectedSource, null);
 		}
 		
 		System.out.println(Reader.linkList.size()+" url's found!");
 		if (Reader.linkList.size() > 0) {
-			if (View.option("Download", Reader.linkList.size()+" url's found! Would you like to download them into "+selectedDestination)) {
+			if (View.option("Download",
+					Reader.fileList.size()+" files were read!  "+
+					Reader.linksFound.size()+" url's were found!  "+
+					Reader.linkList.size()+" url's are actively working with status 200 OK!\nWould you like to download them into "+selectedDestination)
+					) {
 				int index = 0;
 				for (String url : Reader.linkList) {
 					try {
@@ -274,8 +285,20 @@ public class URLScrapper {
 				labelStatus.setText("Job cancelled!");
 			}
 		} else {
-			View.mensagem("Message", "No URL's were found to download");
+			View.mensagem("Message", 
+					Reader.fileList.size()+" files were read!  "+
+					Reader.linksFound.size()+" url's were found!  "+
+					"No actively URL's to download");
 			labelStatus.setText("No url's were found to download");
+		}
+		
+		if (advancedWindow.printConsole()) {
+			System.out.println("Printing results found...");
+			for (String target : Reader.linksFound) {
+				System.out.println(target);
+			}
+			console.textConsole.setText(String.join("\n", Reader.linksFound));
+			console.frame.setVisible(true);
 		}
 	}
 	

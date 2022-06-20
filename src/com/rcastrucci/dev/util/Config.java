@@ -31,4 +31,8 @@ public class Config {
 		}
 		return properties;
 	}
+	
+	public static void saveProperties() {
+		// TODO implementation to save properties to the file
+    }
 }
