@@ -15,7 +15,7 @@ who bought the rights to watch and want to watch later and offline! If this is y
 ## How to do it!
 ## **MacOS**
 For MacOS I manage to bundled the app so you don't need to deal with coding.<br><br>
-<a href="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg">
+<a href="https://github.com/rcastrucci/URLVideoScrapper/tree/main/Bundled%20App">
 <img src="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper%20App.png" width="150" height="150"/>
 </a><br>
 [Download App for MacOS](https://github.com/rcastrucci/URLVideoScrapper/tree/main/Bundled%20App)
