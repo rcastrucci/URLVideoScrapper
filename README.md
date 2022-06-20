@@ -18,7 +18,7 @@ For MacOS I manage to bundled the app so you don't need to deal with coding.<br>
 <a href="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg">
 <img src="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper%20App.png" width="150" height="150"/>
 </a><br>
-[Download App for MacOS](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Bundled%20App/URLScrapper_macos_1_0.dmg)
+[Download App for MacOS](https://github.com/rcastrucci/URLVideoScrapper/tree/main/Bundled%20App)
 
 ## **Linux**
 For Linux as well here is a bundled app to download<br><br>
@@ -26,7 +26,7 @@ For Linux as well here is a bundled app to download<br><br>
 
 ## **Windows**
 For **Windows** you need to have Java 17 or later installed in your computer and you will be able to run the Runnable Jar.<br>
-[Download Runnable Jar file](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/URLScrapper.jar)
+[Download Runnable Jar file](https://github.com/rcastrucci/URLVideoScrapper/tree/main/Runnable%20Jar)
 
 ## Java?
 To know if you have or not java installed just open a terminal window and type
