@@ -278,6 +278,7 @@ public class URLScrapper {
 			@Override
 		    public void run() {
 		        //This will be called on the EDT
+				frame.setVisible(false);
 				progressBar.setTitle("Loading");
 				progressBar.getProgressBarWindow().setVisible(true);
 		        progressBar.getProgressBar().setValue(2);
@@ -360,7 +361,6 @@ public class URLScrapper {
 									@Override
 								    public void run() {
 								        //This will be called on the EDT
-										frame.setVisible(false);
 										progressBar.setTitle("Downloading");
 										progressBar.getProgressBarWindow().setVisible(true);
 								        progressBar.getProgressBar().setValue(2);
@@ -407,7 +407,6 @@ public class URLScrapper {
 												} else {
 													labelStatus.setText(Reader.linkList.size()+" videos were downloaded successfully!");
 												}
-												frame.setVisible(true);
 										    }
 										});
 									}
@@ -434,10 +433,10 @@ public class URLScrapper {
 									console.textConsole.setText(String.join("\n", Reader.linksFound));
 									console.frame.setVisible(true);
 								}
-								
-								frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 							}
 						});
+						
+						frame.setVisible(true);
 					}
 				});
 				
