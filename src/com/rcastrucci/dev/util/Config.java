@@ -10,8 +10,9 @@ public class Config {
 	private static Properties properties;
 	
 	private static final String ARQ = "/resources/config.properties";	
-    // O construtor da classe é privado 
-	// outros objetos não podem instanciar AliquotaSingleton
+    
+	// O construtor da classe é privado 
+	// outros objetos não podem instanciar
 	private Config(){}
 	
 	// A única maneira de obter um objeto Properties 

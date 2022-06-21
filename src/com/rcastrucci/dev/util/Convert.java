@@ -1,9 +1,24 @@
 package com.rcastrucci.dev.util;
 
+/**
+ * Class for utilities to work with conversions
+ * @author rcastrucci.dev
+ *
+ */
 public class Convert {
 
+	/**
+	 * Class to convert String
+	 * @author rcastrucci.dev
+	 *
+	 */
 	public static class string {
 		
+		/**
+		 * Method to decode strings with special letters from url
+		 * @param strData is a String parameter with content to be decoded 
+		 * @return String
+		 */
 	    public static String decode(String strData) {
 	        if (strData == null) {
 	            return "";

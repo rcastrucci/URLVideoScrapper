@@ -29,15 +29,14 @@ public class Reader {
 		try { 
 			File file;
 			String generalTitle;
-			String[] path = filePath.split("/");
 			String[] fileTypes = Config.getInstance().getProperty("filetype").replaceAll("\\s","").split(",");
 
 			if (fileName != null) {
 				file=new File(filePath+"/"+fileName);  			//creates a new file instance with a folder and filename
-				generalTitle = path[path.length-2]+"_"+linkList.size()+1;
+				generalTitle = fileName.replaceAll("/", "_");
 			} else {
 				file=new File(filePath);						//creates a new file instance just with a path containing filename
-				generalTitle = path[path.length-1]+"_"+linkList.size()+1;
+				generalTitle = filePath.split("/")[filePath.split("/").length-1];
 			}
 			
 			// COMPARE FILE TYPE IF HAS A '*' SEARCH IN ALL FILES
@@ -51,7 +50,7 @@ public class Reader {
 				StringBuffer sb=new StringBuffer();    				//constructs a string buffer with no characters  
 				String line;  
 				while((line=br.readLine())!=null) {
-					// VIMEO
+					
 					if (Config.getInstance().getProperty("plataform").equals("advanced")) {
 						
 						// Specific Embbed videos
@@ -65,7 +64,7 @@ public class Reader {
 							// If connection returns 200 Ok adds to the list
 							if (Connection.isLink200(link)) {							
 								linkList.add(link);
-								titleList.add(generalTitle);
+								titleList.add(generalTitle+"_"+linkList.size()+1);
 								sb.append(link);
 								sb.append("\n");
 							}
@@ -89,7 +88,7 @@ public class Reader {
 							// If connection returns 200 Ok adds to the list of links to be downloaded
 							if (Connection.isLink200(link)) {							
 								linkList.add(link);
-								titleList.add(vimeoTitle);
+								titleList.add(generalTitle+"_"+vimeoTitle);
 								sb.append(link);
 								sb.append("\n");
 								System.out.println("200 OK");
@@ -110,7 +109,7 @@ public class Reader {
 							// If connection returns 200 Ok adds to the list
 							if (Connection.isLink200(link)) {							
 								linkList.add(link);
-								titleList.add(generalTitle);
+								titleList.add(generalTitle+"_"+linkList.size()+1);
 								sb.append(link);
 								sb.append("\n");
 								System.out.println("200 OK");

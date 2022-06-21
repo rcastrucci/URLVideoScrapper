@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -20,12 +19,12 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-
 import com.rcastrucci.dev.model.Advanced;
 import com.rcastrucci.dev.model.AdvancedWindow;
 import com.rcastrucci.dev.model.Console;
 import com.rcastrucci.dev.model.Reader;
 import com.rcastrucci.dev.util.Config;
+import com.rcastrucci.dev.view.ProgressBar;
 import com.rcastrucci.dev.view.View;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
@@ -33,22 +32,25 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JRadioButton;
+import java.awt.Cursor;
 
 public class URLScrapper {
 
-	private JFrame frame;
+	private static JFrame frame;
 	private static JButton btnStart = new JButton("Start");
 	private static JButton btnSource = new JButton("Source");
 	private static JButton btnDestination =  new JButton("Destination");
+	private static JButton btnQuit = new JButton("Quit");
 	private static String selectedSource;
 	private static String selectedDestination;
+	private static JLabel labelSource = new JLabel("Source:");
+	private static JLabel labelDestination = new JLabel("Destination:");
 	private static JLabel labelStatus = new JLabel("Status: waiting");
 	private static JRadioButton radioAdvanced = new JRadioButton("Advanced");
 	private static JRadioButton radioStandard = new JRadioButton("Standard");
 	private static Advanced advancedWindow = AdvancedWindow.getInstance();
 	private static Console console = new Console();
-
-	//frame.setLocation((int) , ;
+	private static ProgressBar progressBar = new ProgressBar();
 
 	/**
 	 * Launch the application.
@@ -57,8 +59,7 @@ public class URLScrapper {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					URLScrapper window = new URLScrapper();
-					window.frame.setVisible(true);
+					new URLScrapper();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -83,10 +84,14 @@ public class URLScrapper {
 		
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame = new JFrame();
+		frame.setBackground(Color.DARK_GRAY);
+		frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-150), 450, 300);
+		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-150), 450, 320);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);
+		frame.setVisible(true);
 		
 		JTextPane txtpnUrlScrapperWill = new JTextPane();
 		txtpnUrlScrapperWill.setEnabled(false);
@@ -109,55 +114,76 @@ public class URLScrapper {
 		radioStandard.setBackground(Color.DARK_GRAY);
 		radioStandard.setForeground(Color.GRAY);
 		radioStandard.setSelected(Config.getInstance().getProperty("plataform").equals("standard"));
+
+		labelDestination.setHorizontalAlignment(SwingConstants.LEFT);
+		labelDestination.setForeground(Color.GRAY);
+		labelDestination.setFont(new Font("Helvetica Neue", Font.ITALIC, 12));
+		labelDestination.setBackground(Color.DARK_GRAY);
 		
+		labelSource.setHorizontalAlignment(SwingConstants.LEFT);
+		labelSource.setForeground(Color.GRAY);
+		labelSource.setFont(new Font("Helvetica Neue", Font.ITALIC, 12));
+		labelSource.setBackground(Color.DARK_GRAY);
+				
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(17)
-							.addComponent(labelStatus, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(labelSource, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)
+								.addComponent(labelDestination, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)
+								.addComponent(labelStatus, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 438, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-							.addGap(58)
-							.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 57, Short.MAX_VALUE)))
-					.addGap(68))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(91)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(radioAdvanced)
-						.addComponent(radioStandard))
-					.addGap(26)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(btnStart, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnDestination, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnSource, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(106, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(61)
+							.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(70)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(radioAdvanced)
+								.addComponent(radioStandard))
+							.addGap(59)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(btnStart, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnDestination, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnSource, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)))))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+					.addGap(27)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnSource)
-						.addComponent(radioStandard))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnDestination)
-						.addComponent(radioAdvanced))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnStart)
 					.addGap(18)
-					.addComponent(labelStatus, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(btnSource)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnDestination)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnStart)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnQuit))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(radioStandard)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(radioAdvanced)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(labelSource, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(labelDestination, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(labelStatus)
+					.addContainerGap(10, Short.MAX_VALUE))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 		
@@ -199,7 +225,7 @@ public class URLScrapper {
 	    	    chooser.setAcceptAllFileFilterUsed(false);
 	    	    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) { 
 	    	    	selectedSource = chooser.getSelectedFile().toString();
-	    			labelStatus.setText("Source: "+selectedSource);
+	    			labelSource.setText("Source: "+selectedSource);
 	    	    } else {
 	    	    	selectedSource = null;
 	    	    }
@@ -213,21 +239,28 @@ public class URLScrapper {
 	    	    chooser = new JFileChooser(); 
 	    	    chooser.setCurrentDirectory(new java.io.File("/~"));
 	    	    chooser.setDialogTitle("Select a destination");
-	    	    chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	    	    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 	    	    chooser.setAcceptAllFileFilterUsed(false);
 	    	    if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) { 
 	    	    	selectedDestination = chooser.getSelectedFile().toString();
-	    			labelStatus.setText("Destination: "+selectedDestination);
+	    			labelDestination.setText("Destination: "+selectedDestination);
 	    	    } else {
 	    	    	selectedDestination = null;
 	    	    }
 		    }
 	    });
 	    
+		btnQuit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+	    
 	    frame.setAutoRequestFocus(true);
 	}
 	
 	public static void start() {
+		
 		if (selectedSource == null) {
 			View.mensagem("Missing a source folder");
 		} else {			
@@ -239,67 +272,178 @@ public class URLScrapper {
 		}
 	}
 	
-	public static void scrapper() {	
+	public static void scrapper() {
+				
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+		    public void run() {
+		        //This will be called on the EDT
+				progressBar.setTitle("Loading");
+				progressBar.getProgressBarWindow().setVisible(true);
+		        progressBar.getProgressBar().setValue(2);
+		        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+		        progressBar.getProgressBarWindow().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		    }
+		});
 		
-		System.out.println("Readding folder...");
-		System.out.println(selectedSource);
-		File filesSource = new File(selectedSource);
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				
+				File filesSource = new File(selectedSource);
 
-		// READS A FOLDER
-		if (filesSource.isDirectory()) {
-			ArrayList<String> list = listFiles(filesSource);
-			Reader.reset();
-			for (String filename : list) {
-				Reader.run(selectedSource, filename);
-			}
-		} else {
-		// READ A FILE
-			Reader.reset();
-			Reader.run(selectedSource, null);
-		}
-		
-		System.out.println(Reader.linkList.size()+" url's found!");
-		if (Reader.linkList.size() > 0) {
-			if (View.option("Download",
-					Reader.fileList.size()+" files were read!  "+
-					Reader.linksFound.size()+" url's were found!  "+
-					Reader.linkList.size()+" url's are actively working with status 200 OK!\nWould you like to download them into "+selectedDestination)
-					) {
-				int index = 0;
-				for (String url : Reader.linkList) {
-					try {
-						System.out.println("Downloading: "+Reader.titleList.get(index));
-						labelStatus.setText("Downloading: "+Reader.titleList.get(index));
-						download(url, selectedDestination+"/"+Reader.titleList.get(index)+".mp4");
-					} catch (IOException e) {
-						e.printStackTrace();
+				// LOADING A FOLDER
+				if (filesSource.isDirectory()) {
+					ArrayList<String> list = listFiles(filesSource);
+					Reader.reset();
+					double percentageLoad = 100.00 / list.size();
+					int indexLoad = 1;
+					for (String filename : list) {
+						final int i = indexLoad;
+						EventQueue.invokeLater(new Runnable() {
+							@Override
+						    public void run() {
+								progressBar.getStatus().setText(filename);
+								progressBar.getPanelStatus().update(progressBar.getPanelStatus().getGraphics());
+						        progressBar.getProgressBar().setValue((int) (percentageLoad*i));
+						        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+						    }
+						});
+						EventQueue.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								Reader.run(selectedSource, filename);
+							}
+						});
+						indexLoad++;
 					}
-					index++;
-				}
-				if (Reader.linkList.size() == 1) {
-					labelStatus.setText(Reader.linkList.size()+" video was downloaded successfully!");
+					EventQueue.invokeLater(new Runnable() {
+						@Override
+					    public void run() {
+					        progressBar.getProgressBarWindow().setVisible(false);
+					    }
+					});
 				} else {
-					labelStatus.setText(Reader.linkList.size()+" videos were downloaded successfully!");
+				// LOADING A FILE
+					EventQueue.invokeLater(new Runnable() {
+						@Override
+					    public void run() {
+							progressBar.getStatus().setText(selectedSource);
+							progressBar.getPanelStatus().update(progressBar.getPanelStatus().getGraphics());
+					        progressBar.getProgressBar().setValue(40);
+					        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+					    }
+					});
+					EventQueue.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							Reader.reset();
+							Reader.run(selectedSource, null);
+						}
+					});
 				}
-			} else {
-				labelStatus.setText("Job cancelled!");
+				
+				EventQueue.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+				
+						System.out.println(Reader.linkList.size()+" url's found!");
+						
+						if (Reader.linkList.size() > 0) {
+							if (View.option("Download",
+									Reader.fileList.size()+" files were read!  "+
+									Reader.linksFound.size()+" url's were found!  "+
+									Reader.linkList.size()+" url's are actively working with status 200 OK!\nWould you like to download them into "+selectedDestination)
+									) {
+								
+								EventQueue.invokeLater(new Runnable() {
+									@Override
+								    public void run() {
+								        //This will be called on the EDT
+										frame.setVisible(false);
+										progressBar.setTitle("Downloading");
+										progressBar.getProgressBarWindow().setVisible(true);
+								        progressBar.getProgressBar().setValue(2);
+								        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+								        progressBar.getProgressBarWindow().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+								        progressBar.getProgressBarWindow().setFocusable(true);
+								    }
+								});
+								
+								EventQueue.invokeLater(new Runnable() {
+									@Override
+								    public void run() {
+										double percentageDownloaded = 100.00 / Reader.linkList.size();
+										int indexDownload = 1;
+										for (String url : Reader.linkList) {
+											final int i = indexDownload;
+											EventQueue.invokeLater(new Runnable() {
+												@Override
+											    public void run() {
+											        progressBar.getProgressBar().setValue((int)(percentageDownloaded*i));
+											        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+											        progressBar.getStatus().setText(Reader.titleList.get(i-1)+".mp4");
+											        progressBar.getPanelStatus().update(progressBar.getPanelStatus().getGraphics());
+											    }
+											});
+											EventQueue.invokeLater(new Runnable() {
+												@Override
+											    public void run() {		
+													try {
+														download(url, selectedDestination+"/"+Reader.titleList.get(i-1)+".mp4");
+													} catch (IOException e) {
+														e.printStackTrace();
+													}
+											    }
+											});
+											indexDownload++;
+										}
+										EventQueue.invokeLater(new Runnable() {
+											@Override
+										    public void run() {
+										        progressBar.getProgressBarWindow().setVisible(false);
+												if (Reader.linkList.size() == 1) {
+													labelStatus.setText(Reader.linkList.size()+" video was downloaded successfully!");
+												} else {
+													labelStatus.setText(Reader.linkList.size()+" videos were downloaded successfully!");
+												}
+												frame.setVisible(true);
+										    }
+										});
+									}
+								});
+							} else {
+								labelStatus.setText("Job cancelled!");
+							}
+						} else {
+							View.mensagem("Message", 
+									Reader.fileList.size()+" files were read!  "+
+									Reader.linksFound.size()+" url's were found!  "+
+									"No actively URL's to download");
+							labelStatus.setText("No url's were found to download");
+						}	
+
+						EventQueue.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								if (advancedWindow.printConsole()) {
+									System.out.println("Printing results found...");
+									for (String target : Reader.linksFound) {
+										System.out.println(target);
+									}
+									console.textConsole.setText(String.join("\n", Reader.linksFound));
+									console.frame.setVisible(true);
+								}
+								
+								frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+							}
+						});
+					}
+				});
+				
 			}
-		} else {
-			View.mensagem("Message", 
-					Reader.fileList.size()+" files were read!  "+
-					Reader.linksFound.size()+" url's were found!  "+
-					"No actively URL's to download");
-			labelStatus.setText("No url's were found to download");
-		}
+		});
 		
-		if (advancedWindow.printConsole()) {
-			System.out.println("Printing results found...");
-			for (String target : Reader.linksFound) {
-				System.out.println(target);
-			}
-			console.textConsole.setText(String.join("\n", Reader.linksFound));
-			console.frame.setVisible(true);
-		}
 	}
 	
 	public static ArrayList<String> listFiles(File folder) {

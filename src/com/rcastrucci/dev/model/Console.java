@@ -11,6 +11,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class Console {
 
@@ -58,6 +59,8 @@ public class Console {
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 339, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(7, Short.MAX_VALUE))
 		);
+		textConsole.setFont(new Font("Courier", Font.BOLD, 14));
+		textConsole.setText("Console");
 		
 		textConsole.setForeground(new Color(0, 100, 0));
 		textConsole.setBackground(Color.BLACK);

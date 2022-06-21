@@ -1,6 +1,5 @@
 package com.rcastrucci.dev.model;
 
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,16 +39,16 @@ public class Advanced {
 	 * Create the application.
 	 */
 	public Advanced() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Advanced window = new Advanced();
-					window.frame.setVisible(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Advanced window = new Advanced();
+//					window.frame.setVisible(false);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 		initialize();
 	}
 
@@ -238,7 +237,7 @@ public class Advanced {
 		frame.getContentPane().setLayout(groupLayout);
 		frame.setBackground(Color.DARK_GRAY);
 		frame.setResizable(false);
-		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-150), 450, 480);
+		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-240), 450, 480);
 		
 		
 		ckSpecific.addActionListener(new ActionListener() {
