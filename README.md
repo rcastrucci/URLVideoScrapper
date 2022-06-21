@@ -51,4 +51,6 @@ file config.properties and uncomment which size fits you better.
 
 #### **If this helped you, say hello!**
 
-![URL Video Scrapper App](https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/main_screen.png)
+<img src="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/main_screen.png" width="500" height="auto" alt="URL Video Scrapper App"/><br>
+<img src="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/advanced_screen.png" width="500" height="auto" alt="URL Video Scrapper App"/><br>
+<img src="https://github.com/rcastrucci/URLVideoScrapper/blob/main/Runnable%20Jar/loading_screen.png" width="500" height="auto" alt="URL Video Scrapper App"/><br>
