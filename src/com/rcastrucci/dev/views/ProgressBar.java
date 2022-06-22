@@ -2,7 +2,9 @@ package com.rcastrucci.dev.views;
 
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.Window.Type;
 import javax.swing.JProgressBar;
@@ -125,5 +127,20 @@ public class ProgressBar {
 	
 	public void setStatus(String status) {
 		this.labelStatus.setText(status);
+	}
+	
+	public void setProgress(String title, String status, int percentage) {
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+		    public void run() {
+				setTitle(title);
+				getStatus().setText(status);
+		        getProgressBar().setValue(percentage);
+		        getProgressBarWindow().setVisible(true);
+		        getProgressBar().update(getProgressBar().getGraphics());
+				getPanelStatus().update(getPanelStatus().getGraphics());
+				getProgressBarWindow().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		    }
+		});
 	}
 }

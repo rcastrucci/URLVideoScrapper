@@ -41,7 +41,6 @@ public class Main {
 	private Main() {
 		initialize();
 	}
-	
 
 	/**
 	 * Initialize the contents of the frame.
@@ -57,7 +56,6 @@ public class Main {
 		addListeners();
 
 	}
-
 	
 	/**
 	 * Add button listeners
@@ -72,8 +70,8 @@ public class Main {
 				mainWindow.getRadioAdvanced().setSelected(false);
 				advancedWindow.getFrame().setVisible(false);
 				config.setProperty("plataform", "standard");
+				Config.getInstance().setProperty("filetype", "html,js");
 			}
-			
 		});
 		
 		// SELECTION OF ADVANCED MODE
@@ -82,8 +80,8 @@ public class Main {
 			public void actionPerformed(ActionEvent e) {
 				mainWindow.getRadioStandard().setSelected(false);
 				mainWindow.getRadioAdvanced().setSelected(true);
-				Config.getInstance().setProperty("plataform", "advanced");
 				advancedWindow.getFrame().setVisible(true);
+				Config.getInstance().setProperty("plataform", "advanced");
 			}
 			
 		});
@@ -130,15 +128,7 @@ public class Main {
 	    	    }
 		    }
 	    });
-	    
-	    // QUIT APPLICATION
-	    mainWindow.getBtnQuit().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
 	}
-	
 	
 	/**
 	 * Start the procedure to search if the condition of source and destination are filled

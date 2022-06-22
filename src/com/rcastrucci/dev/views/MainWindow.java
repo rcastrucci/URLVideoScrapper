@@ -5,13 +5,11 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -24,7 +22,6 @@ public class MainWindow {
 	private JButton btnStart;
 	private JButton btnSource;
 	private JButton btnDestination;
-	private JButton btnQuit;
 	private JLabel labelSource;
 	private JLabel labelDestination;
 	private JLabel labelStatus;
@@ -59,7 +56,6 @@ public class MainWindow {
 		btnStart = new JButton("Start");
 		btnSource = new JButton("Source");
 		btnDestination =  new JButton("Destination");
-		btnQuit = new JButton("Quit");
 		labelSource = new JLabel("Source:");
 		labelDestination = new JLabel("Destination:");
 		labelStatus = new JLabel("Status: waiting");
@@ -75,23 +71,11 @@ public class MainWindow {
 		frame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(Color.DARK_GRAY);
-		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-150), 450, 320);
+		frame.setBounds((int) (screenSize.getWidth()/2 - 225), (int) (screenSize.getHeight()/2-131), 450, 262);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setUndecorated(true);
+		frame.setUndecorated(false);
+		frame.setTitle("URL Video Scrapper");
 		frame.setVisible(true);
-		
-		JTextPane txtpnUrlScrapperWill = new JTextPane();
-		txtpnUrlScrapperWill.setEnabled(false);
-		txtpnUrlScrapperWill.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
-		txtpnUrlScrapperWill.setEditable(false);
-		txtpnUrlScrapperWill.setForeground(Color.LIGHT_GRAY);
-		txtpnUrlScrapperWill.setBackground(Color.DARK_GRAY);
-		txtpnUrlScrapperWill.setText("URL Scrapper will search for video links in html files. Just save the pages in a folder and select as a source!");
-		
-		JLabel lblNewLabel = new JLabel("URL Video Scrapper");
-		lblNewLabel.setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 
 		radioAdvanced.setBackground(Color.DARK_GRAY);
@@ -118,59 +102,46 @@ public class MainWindow {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(17)
+							.addGap(16)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(labelSource, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)
 								.addComponent(labelDestination, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)
 								.addComponent(labelStatus, GroupLayout.PREFERRED_SIZE, 417, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 438, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(61)
-							.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(70)
+							.addGap(75)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(radioAdvanced)
 								.addComponent(radioStandard))
 							.addGap(59)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnQuit, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(btnStart, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnDestination, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnSource, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btnStart, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnDestination, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnSource, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(17, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(27)
-					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtpnUrlScrapperWill, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnSource)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGap(61)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnSource)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnDestination)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnStart)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnQuit))
+							.addComponent(btnStart))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(radioStandard)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(radioAdvanced)))
+							.addComponent(radioAdvanced)
+							.addGap(25)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(labelSource, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(labelDestination, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(labelStatus)
-					.addContainerGap(10, Short.MAX_VALUE))
+					.addContainerGap(11, Short.MAX_VALUE))
 		);
 		
 		frame.getContentPane().setLayout(groupLayout);
@@ -207,16 +178,6 @@ public class MainWindow {
 
 	public void setBtnDestination(JButton btnDestination) {
 		this.btnDestination = btnDestination;
-	}
-
-
-	public JButton getBtnQuit() {
-		return btnQuit;
-	}
-
-
-	public void setBtnQuit(JButton btnQuit) {
-		this.btnQuit = btnQuit;
 	}
 
 
