@@ -1,5 +1,6 @@
 package com.rcastrucci.dev.models;
 
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +16,6 @@ public class Scrapper {
 	
 	private MainWindow mainWindow;
 	private AdvancedWindow advancedWindow;
-	private ProgressBar progressBar;
 	private String source, destination;
 	
 	/**
@@ -24,7 +24,6 @@ public class Scrapper {
 	public Scrapper(String source, String destination) {
 		mainWindow = MainWindow.getInstance();
 		advancedWindow = AdvancedWindow.getInstance();
-		progressBar = new ProgressBar();
 		this.source = source;
 		this.destination = destination;
 	}
@@ -36,7 +35,21 @@ public class Scrapper {
 		
 		mainWindow.getFrame().setVisible(false);
 		
-		progressBar.setProgress("Loading", null, 2);
+		ProgressBar loadingBar = new ProgressBar();
+		
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+		    public void run() {
+				loadingBar.setTitle("Loading");
+				loadingBar.getStatus().setText(null);
+				loadingBar.getProgressBar().setValue(2);
+				loadingBar.getProgressBarWindow().setVisible(true);
+				loadingBar.getProgressBar().update(loadingBar.getProgressBar().getGraphics());
+				loadingBar.getPanelStatus().update(loadingBar.getPanelStatus().getGraphics());
+				loadingBar.getProgressBarWindow().update(loadingBar.getProgressBarWindow().getGraphics());
+				loadingBar.getProgressBarWindow().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		    }
+		});
 		
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -55,10 +68,10 @@ public class Scrapper {
 						EventQueue.invokeLater(new Runnable() {
 							@Override
 						    public void run() {
-								progressBar.getStatus().setText(filename);
-								progressBar.getPanelStatus().update(progressBar.getPanelStatus().getGraphics());
-						        progressBar.getProgressBar().setValue((int) (percentageLoad*i));
-						        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+								loadingBar.getStatus().setText(filename);
+								loadingBar.getPanelStatus().update(loadingBar.getPanelStatus().getGraphics());
+								loadingBar.getProgressBar().setValue((int) (percentageLoad*i));
+								loadingBar.getProgressBar().update(loadingBar.getProgressBar().getGraphics());
 						    }
 						});
 						EventQueue.invokeLater(new Runnable() {
@@ -72,7 +85,7 @@ public class Scrapper {
 					EventQueue.invokeLater(new Runnable() {
 						@Override
 					    public void run() {
-					        progressBar.getProgressBarWindow().setVisible(false);
+							loadingBar.getProgressBarWindow().setVisible(false);
 					    }
 					});
 				} else {
@@ -80,10 +93,10 @@ public class Scrapper {
 					EventQueue.invokeLater(new Runnable() {
 						@Override
 					    public void run() {
-							progressBar.getStatus().setText(source);
-							progressBar.getPanelStatus().update(progressBar.getPanelStatus().getGraphics());
-					        progressBar.getProgressBar().setValue(40);
-					        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+							loadingBar.getStatus().setText(source);
+							loadingBar.getPanelStatus().update(loadingBar.getPanelStatus().getGraphics());
+							loadingBar.getProgressBar().setValue(40);
+							loadingBar.getProgressBar().update(loadingBar.getProgressBar().getGraphics());
 					    }
 					});
 					EventQueue.invokeLater(new Runnable() {
@@ -92,6 +105,12 @@ public class Scrapper {
 							Reader.reset();
 							Reader.run(source, null);
 						}
+					});
+					EventQueue.invokeLater(new Runnable() {
+						@Override
+					    public void run() {
+							loadingBar.getProgressBarWindow().setVisible(false);
+					    }
 					});
 				}
 				
@@ -108,7 +127,17 @@ public class Scrapper {
 									Reader.linkList.size()+" url's are actively working with status 200 OK!\nWould you like to download them into "+destination)
 									) {
 								
-								progressBar.setProgress("Downloading", null, 2);
+								ProgressBar progressBar = new ProgressBar();
+								progressBar.getProgressBarLabel().setText("Downloading");
+								progressBar.getStatus().setText("");
+								progressBar.getProgressBar().setValue(2);
+								progressBar.getProgressBarWindow().setVisible(true);
+								progressBar.getProgressBarWindow().update(progressBar.getProgressBarWindow().getGraphics());
+								progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+								progressBar.getPanelStatus().update(progressBar.getPanelStatus().getGraphics());
+								progressBar.getProgressBarLabel().update(progressBar.getProgressBarLabel().getGraphics());
+								progressBar.getProgressBarWindow().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
 								
 								EventQueue.invokeLater(new Runnable() {
 									@Override
@@ -120,10 +149,13 @@ public class Scrapper {
 											EventQueue.invokeLater(new Runnable() {
 												@Override
 											    public void run() {
-											        progressBar.getProgressBar().setValue((int)(percentageDownloaded*i));
-											        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
 											        progressBar.getStatus().setText(Reader.titleList.get(i-1)+".mp4");
 											        progressBar.getPanelStatus().update(progressBar.getPanelStatus().getGraphics());
+											        progressBar.getProgressBar().setValue((int)(percentageDownloaded*i)-5);
+											        progressBar.getProgressBar().update(progressBar.getProgressBar().getGraphics());
+											        progressBar.getProgressBar().setFocusable(true);
+											        progressBar.getProgressBarWindow().isFocusable();
+											        progressBar.getProgressBar().isFocusable();
 											    }
 											});
 											EventQueue.invokeLater(new Runnable() {
@@ -138,20 +170,57 @@ public class Scrapper {
 											});
 											indexDownload++;
 										}
+										
 										EventQueue.invokeLater(new Runnable() {
 											@Override
-										    public void run() {
-										        progressBar.getProgressBarWindow().setVisible(false);
+											public void run() {
+												progressBar.getProgressBarWindow().setVisible(false);
 												if (Reader.linkList.size() == 1) {
 													mainWindow.getLabelStatus().setText(Reader.linkList.size()+" video was downloaded successfully!");
 												} else {
 													mainWindow.getLabelStatus().setText(Reader.linkList.size()+" videos were downloaded successfully!");
 												}
-										    }
+											}
 										});
+										
+										EventQueue.invokeLater(new Runnable() {
+											@Override
+											public void run() {
+												if (advancedWindow.printConsole()) {
+													
+													ArrayList<String> consoleList = new ArrayList<String>();
+													
+													// SYSTEM OUT PRINT
+													System.out.println("Printing results found...");
+													for (String fileName : Reader.filesFound) {
+														System.out.println(fileName+" -> ");
+														for (String target : Reader.linksFound) {
+															System.out.print(target);
+															consoleList.add(fileName+" -> "+target);
+														}
+													}
+													
+													// GENERATED CONSOLE OUT PRINT
+													ConsoleWindow consoleWindow = new ConsoleWindow();
+													consoleWindow.setTextConsole(String.join("\n", consoleList));
+													consoleWindow.getFrame().setVisible(true);
+												}
+											}
+										});
+										
+										EventQueue.invokeLater(new Runnable() {
+											@Override
+											public void run() {
+												mainWindow.getFrame().setVisible(true);											
+											}
+										});
+										
 									}
 								});
+								
+								
 							} else {
+								mainWindow.getFrame().setVisible(true);
 								mainWindow.getLabelStatus().setText("Job cancelled!");
 							}
 						} else {
@@ -160,37 +229,10 @@ public class Scrapper {
 									Reader.linksFound.size()+" url's were found!  "+
 									"No actively URL's to download");
 							mainWindow.getLabelStatus().setText("No url's were found to download");
-						}	
-	
-						EventQueue.invokeLater(new Runnable() {
-							@Override
-							public void run() {
-								if (advancedWindow.printConsole()) {
-									
-									ArrayList<String> consoleList = new ArrayList<String>();
-
-									// SYSTEM OUT PRINT
-									System.out.println("Printing results found...");
-									for (String fileName : Reader.filesFound) {
-										System.out.println(fileName+" -> ");
-										for (String target : Reader.linksFound) {
-											System.out.print(target);
-											consoleList.add(fileName+" -> "+target);
-										}
-									}
-									
-									// GENERATED CONSOLE OUT PRINT
-									ConsoleWindow consoleWindow = new ConsoleWindow();
-									consoleWindow.setTextConsole(String.join("\n", consoleList));
-									consoleWindow.getFrame().setVisible(true);
-								}
-							}
-						});
-						
-						mainWindow.getFrame().setVisible(true);
+							mainWindow.getFrame().setVisible(true);
+						}
 					}
 				});
-				
 			}
 		});
 	}

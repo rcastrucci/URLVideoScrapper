@@ -125,6 +125,10 @@ public class ProgressBar {
 		this.progressBarLabel.setText(title);
 	}
 	
+	public JLabel getProgressBarLabel() {
+		return this.progressBarLabel;
+	}
+	
 	public void setStatus(String status) {
 		this.labelStatus.setText(status);
 	}

@@ -92,7 +92,7 @@ public class Reader {
 						boolean foundCondition = false;
 						
 						// VIMEO PATTERN
-						if (line.contains("\"width\":"+Config.getInstance().getProperty("width")+",\"mime\":\"video/mp4\"")) {		
+						if (line.contains("\"width\":"+Config.getInstance().getProperty("width")+",\"mime\":\"video/mp4\"")) {
 							String[] parts = line.split("\"width\":"+Config.getInstance().getProperty("width")+",\"mime\":\"video/mp4\"");
 							String[] parts1 = parts[1].split("https");
 							String[] parts2 = parts1[1].split("\"");
@@ -102,10 +102,8 @@ public class Reader {
 							String vimeoTitle = tparts1[0];
 							urlTitle = generalTitle+"_"+vimeoTitle;							
 							foundCondition = true;
-						}
-						
+						} else if (line.contains("<video")) {	
 						// LINKEDIN PATTERN
-						if (line.contains("<video")) {		
 							String[] parts = line.split("src=\"");
 							String[] parts1 = parts[1].split("\"");
 							link = Convert.string.decode(parts1[0]);
